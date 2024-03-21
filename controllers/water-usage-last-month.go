@@ -13,7 +13,7 @@ func WaterUsageLastMonth(c *gin.Context) {
 
 	var waters []struct {
 		KpKode     string `json:"id"`
-		SmPakai    int    `json:"usage"`
+		RekPakai   int    `json:"usage"`
 		RekUangair int    `json:"amount"`
 	}
 
