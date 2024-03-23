@@ -18,9 +18,9 @@ func PaymentThisMonth(c *gin.Context) {
 	result := configs.DB.Raw("SELECT DATE_FORMAT(byr_tgl, '%Y-%m-%d') AS byr_tgl, SUM(byr_total) AS byr_total FROM tm_pembayaran WHERE byr_tgl >= CONCAT(DATE_FORMAT(CURDATE(), '%Y-%m'), '-01 00:00:00') AND byr_sts > 0 GROUP BY DATE_FORMAT(byr_tgl, '%Y-%m-%d')").Scan(&payments)
 
 	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, models.ResponseWithData{
-			Code:    404,
-			Message: "Data tidak ditemukan",
+		c.JSON(http.StatusOK, models.ResponseWithData{
+			Code:    200,
+			Message: "Data Penerimaan Bulanan",
 			Data:    []int{},
 		})
 	} else {

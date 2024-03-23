@@ -18,9 +18,9 @@ func PaymentStatus(c *gin.Context) {
 	result := configs.DB.Raw("SELECT c.kp_kode, COUNT(*) AS byr_jml FROM tm_pembayaran a JOIN tm_rekening b ON b.rek_nomor = a.rek_nomor AND a.byr_tgl >= DATE_SUB(NOW(), INTERVAL 1 HOUR) AND a.byr_sts > 0 JOIN tm_pelanggan c ON c.pel_no = b.pel_no GROUP BY c.kp_kode").Scan(&payments)
 
 	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, models.ResponseWithData{
-			Code:    404,
-			Message: "Data tidak ditemukan",
+		c.JSON(http.StatusOK, models.ResponseWithData{
+			Code:    200,
+			Message: "Data Penerimaan Status",
 			Data:    []int{},
 		})
 	} else {

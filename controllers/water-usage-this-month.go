@@ -19,9 +19,9 @@ func WaterUsageThisMonth(c *gin.Context) {
 	result := configs.DB.Raw("SELECT a.kp_kode, SUM((b.sm_kini - b.sm_lalu)) AS sm_pakai, SUM(getUangAir(a.gol_kode, MONTH(CURDATE()), YEAR(CURDATE()), (b.sm_kini - b.sm_lalu))) AS rek_uangair FROM tm_pelanggan a JOIN tm_stand_meter b ON b.pel_no = a.pel_no AND b.sm_thn = YEAR(CURDATE()) AND b.sm_bln = MONTH(CURDATE()) AND (b.sm_kini - b.sm_lalu) >= 0 AND b.sm_sts = 1 GROUP BY a.kp_kode").Scan(&waters)
 
 	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, models.ResponseWithData{
-			Code:    404,
-			Message: "Data tidak ditemukan",
+		c.JSON(http.StatusOK, models.ResponseWithData{
+			Code:    200,
+			Message: "Data Pemakaian Air Bulan Berjalan",
 			Data:    []int{},
 		})
 	} else {

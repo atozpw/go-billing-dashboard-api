@@ -21,9 +21,9 @@ func BillReleaseStatus(c *gin.Context) {
 	result := configs.DB.Raw("SELECT a.kp_kode, COUNT(*) AS rek_jml FROM tm_pelanggan a JOIN tm_drd_awal b ON b.pel_no = a.pel_no AND b.rek_thn = YEAR(DATE_ADD(CURDATE(), INTERVAL 1 - ? MONTH)) AND b.rek_bln = MONTH(DATE_ADD(CURDATE(), INTERVAL 1 - ? MONTH)) AND b.rek_sts = 1 AND a.kps_kode = 0 GROUP BY a.kp_kode", period, period).Scan(&statuses)
 
 	if result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, models.ResponseWithData{
-			Code:    404,
-			Message: "Data tidak ditemukan",
+		c.JSON(http.StatusOK, models.ResponseWithData{
+			Code:    200,
+			Message: "Data Status Penerbitan",
 			Data:    []int{},
 		})
 	} else {
